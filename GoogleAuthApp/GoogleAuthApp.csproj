@@ -210,6 +210,22 @@
     <Compile Include="Migrations\202104221221218_DataMigration7.Designer.cs">
       <DependentUpon>202104221221218_DataMigration7.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104231140116_DataMigration8.cs" />
+    <Compile Include="Migrations\202104231140116_DataMigration8.Designer.cs">
+      <DependentUpon>202104231140116_DataMigration8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104231141582_DataMigration9.cs" />
+    <Compile Include="Migrations\202104231141582_DataMigration9.Designer.cs">
+      <DependentUpon>202104231141582_DataMigration9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104231147085_DataMigration10.cs" />
+    <Compile Include="Migrations\202104231147085_DataMigration10.Designer.cs">
+      <DependentUpon>202104231147085_DataMigration10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104231200161_DataMigration11.cs" />
+    <Compile Include="Migrations\202104231200161_DataMigration11.Designer.cs">
+      <DependentUpon>202104231200161_DataMigration11.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -240,6 +256,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Styles\Profile.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -323,6 +340,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202104221221218_DataMigration7.resx">
       <DependentUpon>202104221221218_DataMigration7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104231140116_DataMigration8.resx">
+      <DependentUpon>202104231140116_DataMigration8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104231141582_DataMigration9.resx">
+      <DependentUpon>202104231141582_DataMigration9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104231147085_DataMigration10.resx">
+      <DependentUpon>202104231147085_DataMigration10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104231200161_DataMigration11.resx">
+      <DependentUpon>202104231200161_DataMigration11.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

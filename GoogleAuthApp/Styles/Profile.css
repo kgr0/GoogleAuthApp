@@ -1,0 +1,39 @@
+﻿.top-container {
+    display: flex;
+    flex-direction: row;
+    background-color: lavender;
+}
+
+.profile-photo-container {
+    flex: 0 0 200px;
+}
+
+img {
+    width: 300px;
+}
+.profile-photo-container{
+    margin: 20px;
+}
+.profile-info-container {
+    margin: 20px;
+}
+.name {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.username {
+    font-size: 12px;
+    font-weight: 700;
+    color: gray;
+}
+
+.username::before {
+        content: "@";
+        font-size: 14px;
+        font-weight: 700;
+        color: gray;
+    }
+.birthday::before{
+    content: "Date of birth: "
+}

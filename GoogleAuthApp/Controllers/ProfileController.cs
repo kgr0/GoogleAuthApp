@@ -31,9 +31,13 @@ namespace GoogleAuthApp.Controllers
             ViewBag.FirstName = user.FirstName;
             ViewBag.SecondName = user.SecondName;
             ViewBag.UserName = user.UserName;
-            ViewBag.Photo = user.Photo;
             ViewBag.BirthDay = user.BirthDay;
-            return RedirectToAction("Index2");
+
+            
+            PictureContext db2 = new PictureContext();
+            ViewBag.Photo = db2.Pictures.Where(u => u.UserId.Equals(userId)).Single().Image;
+
+            //return RedirectToAction("Index2");
             return View();
         }
         /*
@@ -101,11 +105,13 @@ namespace GoogleAuthApp.Controllers
         */
 
 
-        PictureContext db = new PictureContext();
+        
 
         public ActionResult Index2()
         {
-            return View(db.Pictures);
+            PictureContext db = new PictureContext();
+            string userId = User.Identity.GetUserId();
+            return View(db.Pictures.Where(u => u.UserId.Equals(userId)));
         }
 
         public ActionResult Create()
@@ -119,17 +125,26 @@ namespace GoogleAuthApp.Controllers
             if (ModelState.IsValid && uploadImage != null)
             {
                 byte[] imageData = null;
-                // считываем переданный файл в массив байтов
                 using (var binaryReader = new BinaryReader(uploadImage.InputStream))
                 {
                     imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
                 }
-                // установка массива байтов
-                pic.Image = imageData;
+                PictureContext db = new PictureContext();
+                string userId = User.Identity.GetUserId();
+                var picture = db.Pictures.Where(u => u.UserId.Equals(userId)).Single();
+                if (picture != null)
+                {
+                    picture.Image = imageData;
+                }
+                else
+                {
+                    pic.Image = imageData;
+                    pic.UserId = User.Identity.GetUserId();
 
-                db.Pictures.Add(pic);
+                    db.Pictures.Add(pic);
+                }
                 db.SaveChanges();
-
+               
                 return RedirectToAction("ShowOwnProfile");
             }
             return View(pic);
