@@ -1,0 +1,73 @@
+﻿@model IEnumerable<GoogleAuthApp.Models.OwnProfileViewModel>
+
+@{
+    ViewBag.Title = "ShowOwnProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>My Profile</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecondName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BirthDay)
+        </th>
+        <th></th>
+    </tr>
+
+
+    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+
+
+</table>
+
+<p>@ViewBag.FirstName</p>
+<p>@ViewBag.SecondName</p>
+<p>@ViewBag.UserName</p>
+<p>@ViewBag.BirthDay</p>
+
+@*
+        <h2>Basic File Upload</h2>
+        @using (Html.BeginForm("Upload",
+                                "Profile",
+                                FormMethod.Post,
+                                new { enctype = "multipart/form-data" }))
+        {
+            <label for="file">Upload Image:</label>
+            <input type="file" name="file" id="file" />
+            <br>
+            <br>
+
+            <input type="submit" value="Upload Image" />
+
+            <br>
+            <br>
+
+            @ViewBag.Message
+        }
+
+
+
+
+    @using (Html.BeginForm("Create", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input name="ImageFile" type="file" />
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    }*@
+

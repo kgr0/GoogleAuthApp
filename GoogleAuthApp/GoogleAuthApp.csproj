@@ -170,6 +170,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -185,10 +186,35 @@
     <Compile Include="Migrations\202103111944025_DataMigration1.Designer.cs">
       <DependentUpon>202103111944025_DataMigration1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202104212131248_DataMigration2.cs" />
+    <Compile Include="Migrations\202104212131248_DataMigration2.Designer.cs">
+      <DependentUpon>202104212131248_DataMigration2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104220803329_DataMigration3.cs" />
+    <Compile Include="Migrations\202104220803329_DataMigration3.Designer.cs">
+      <DependentUpon>202104220803329_DataMigration3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104220805572_DataMigration4.cs" />
+    <Compile Include="Migrations\202104220805572_DataMigration4.Designer.cs">
+      <DependentUpon>202104220805572_DataMigration4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104220810526_DataMigration5.cs" />
+    <Compile Include="Migrations\202104220810526_DataMigration5.Designer.cs">
+      <DependentUpon>202104220810526_DataMigration5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104221217360_DataMigration6.cs" />
+    <Compile Include="Migrations\202104221217360_DataMigration6.Designer.cs">
+      <DependentUpon>202104221217360_DataMigration6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202104221221218_DataMigration7.cs" />
+    <Compile Include="Migrations\202104221221218_DataMigration7.Designer.cs">
+      <DependentUpon>202104221221218_DataMigration7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ProfileViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -248,6 +274,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Profile\ShowOwnProfile.cshtml" />
+    <Content Include="Views\Profile\UploadPhoto.cshtml" />
+    <Content Include="Views\Profile\Create.cshtml" />
+    <Content Include="Views\Profile\Picture.cshtml" />
+    <Content Include="Views\Profile\Index2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -274,6 +305,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202103111944025_DataMigration1.resx">
       <DependentUpon>202103111944025_DataMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104212131248_DataMigration2.resx">
+      <DependentUpon>202104212131248_DataMigration2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104220803329_DataMigration3.resx">
+      <DependentUpon>202104220803329_DataMigration3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104220805572_DataMigration4.resx">
+      <DependentUpon>202104220805572_DataMigration4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104220810526_DataMigration5.resx">
+      <DependentUpon>202104220810526_DataMigration5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104221217360_DataMigration6.resx">
+      <DependentUpon>202104221217360_DataMigration6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202104221221218_DataMigration7.resx">
+      <DependentUpon>202104221221218_DataMigration7.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,0 +1,32 @@
+﻿@model GoogleAuthApp.Models.PictureViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm("Create", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <legend>Добавить изображение</legend>
+
+     
+
+        <div class="editor-label">Файл изображения</div>
+        <div class="editor-field">
+            <input type="file" name="uploadImage" />
+        </div>
+
+        <p>
+            <input type="submit" value="Добавить" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

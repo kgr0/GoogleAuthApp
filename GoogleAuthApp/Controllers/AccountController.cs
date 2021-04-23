@@ -52,6 +52,11 @@ namespace GoogleAuthApp.Controllers
             }
         }
 
+        public ActionResult Settings()
+        {
+            return View();
+        }
+
         //
         // GET: /Account/Login
         [AllowAnonymous]
