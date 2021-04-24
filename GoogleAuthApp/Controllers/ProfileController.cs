@@ -12,6 +12,9 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Web.UI.WebControls;
 using System.Data.Entity.Validation;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using System.Data.Entity;
 
 namespace GoogleAuthApp.Controllers
 {
@@ -35,7 +38,14 @@ namespace GoogleAuthApp.Controllers
 
             
             PictureContext db2 = new PictureContext();
-            ViewBag.Photo = db2.Pictures.Where(u => u.UserId.Equals(userId)).Single().Image;
+            if (db2.Pictures.Where(u => u.UserId.Equals(userId)).Count() != 0)
+            {
+                ViewBag.Photo = db2.Pictures.Where(u => u.UserId.Equals(userId)).Single().Image;
+            }
+            else
+            {
+                ViewBag.Photo = new byte[0];
+            }
 
             //return RedirectToAction("Index2");
             return View();
@@ -131,9 +141,9 @@ namespace GoogleAuthApp.Controllers
                 }
                 PictureContext db = new PictureContext();
                 string userId = User.Identity.GetUserId();
-                var picture = db.Pictures.Where(u => u.UserId.Equals(userId)).Single();
-                if (picture != null)
+                if (db.Pictures.Where(u => u.UserId.Equals(userId)).Count() != 0)
                 {
+                    var picture = db.Pictures.Where(u => u.UserId.Equals(userId)).Single();
                     picture.Image = imageData;
                 }
                 else
@@ -149,6 +159,7 @@ namespace GoogleAuthApp.Controllers
             }
             return View(pic);
         }
+
 
     }
 }

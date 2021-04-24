@@ -30,6 +30,25 @@ namespace GoogleAuthApp.Models
         public byte[] Image { get; set; }
     }
 
+    public class SearchUserViewModel
+    {
+
+        public string UserId { get; set; }
+        public string UserName { get; set; } 
+        public string FirstName { get; set; }
+        public string SecondName { get; set; }
+        public byte[] Photo { get; set; }
+
+        public SearchUserViewModel(string userId, string userName, string firstName, string secondName, byte[] photo)
+        {
+            UserId = userId;
+            UserName = userName;
+            FirstName = firstName;
+            SecondName = secondName;
+            Photo = photo;
+        }
+    }
+
     public class PictureContext : DbContext
     {
         public PictureContext()

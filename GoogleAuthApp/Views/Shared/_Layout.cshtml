@@ -19,11 +19,25 @@
                 </button>
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
+            
+
+            
+
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                     <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>
+                        @using (Html.BeginForm("SearchUser", "Home", FormMethod.Post, new { id = "submitForm" }))
+                        {
+                        <div class="search-container" style="margin:13px;">
+
+                            <input type="text" name="SearchString" />
+                            <input type="submit" value="Filter" />
+                        </div>
+                        }
+                    </li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

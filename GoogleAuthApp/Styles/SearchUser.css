@@ -1,0 +1,12 @@
+﻿img {
+    width: 200px;
+    margin: 10px;
+}
+tr {
+    background-color: azure;
+    margin: 10px;
+    width: 100%;
+}
+td{
+    margin: 10px;
+}
