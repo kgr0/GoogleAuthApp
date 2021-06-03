@@ -8,21 +8,21 @@
 {
     @Html.ValidationSummary(true)
     <fieldset>
-        <legend>Добавить изображение</legend>
+        <legend>Add Picture</legend>
 
-        <div class="editor-label">Файл изображения</div>
+        <div class="editor-label">Picture file</div>
         <div class="editor-field">
             <input type="file" name="uploadImage" />
         </div>
 
         <p>
-            <input type="submit" value="Добавить" />
+            <input type="submit" value="Upload" />
         </p>
     </fieldset>
 }
 
 <div>
-    @Html.ActionLink("Вернуться к списку", "Index")
+    @Html.ActionLink("Back to Profile", "ShowOwnProfile")
 </div>
 
 @section Scripts {

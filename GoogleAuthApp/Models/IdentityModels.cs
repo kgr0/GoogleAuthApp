@@ -32,6 +32,9 @@ namespace GoogleAuthApp.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Category> Categories { get; set; }
+        public DbSet<GroupsOfInterest> GroupsOfInterests { get; set; }
+        public DbSet<ChosenGroup> ChosenGroups { get; set; }
+        public DbSet<Follow> Follows { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

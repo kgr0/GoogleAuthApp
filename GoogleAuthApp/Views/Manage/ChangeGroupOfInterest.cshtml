@@ -1,0 +1,63 @@
+﻿@model IOrderedQueryable<GoogleAuthApp.Models.GroupsOfInterest>
+@{
+    ViewBag.Title = "ChangeGroupOfInterest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Change Group Of Interest</h2>
+
+<div>
+    <select id="ddl">
+        @foreach (var group in Model.Where(g => g.ParentId.Equals(0)))
+        {
+            <option value="@group.Id">@group.Group </option>
+        }
+    </select>
+    
+    @foreach (var group in Model.Where(g => g.ParentId.Equals(0)).ToArray())
+    {
+        <select id="ddl_@group.Id" class="DDL hideDDL">
+            <option value=""></option>
+            @foreach (var subGroup in Model.Where(u => u.ParentId.Equals(@group.Id)))
+            {
+                <option value="@subGroup.Id">@subGroup.Group</option>
+            }
+        </select>
+    }
+</div>
+<div>
+   <input id="btn_addGroup" type="submit" value="Add Group" />
+</div>
+
+
+<link type="text/css" rel="stylesheet" href="~/Content/hide.css" />
+
+@section scripts {
+    <script type="text/javascript">
+        //var array2 = JSON.parse("@Html.Raw(Model.ToArray())");
+        $('#ddl').change(function () {
+            $('.DDL').addClass('hideDDL');
+            var chosen = $(this).find('option:selected').attr('value');
+            $('#ddl_' + chosen).removeClass('hideDDL');
+        });
+        document.getElementById("btn_addGroup").addEventListener("click", function () {
+            var groupId = "";
+            var drop1 = $('#ddl').find('option:selected').attr('value');
+            var drop2 = $('#ddl_' + drop1).find('option:selected').attr('value');
+
+            if (drop2 == "")
+                groupId = drop1;
+            else
+                groupId = drop2;
+
+            @*//@Url.Action("ShowProfile", "Profile", new { groupId = groupId });*@
+            @*if ("@ViewBag.GroupWillAddTo" == "Settings*@
+                location.href = '@Url.Action("AddGroupOfInterest", "Manage")?groupId=' + groupId;
+            @* else if ("@ViewBag.GroupWillAddTo" == "Post")
+                location.href = '@Url.Action("AddCategoryToPost", "Profile")?postId=' + @ViewBag.PostOfferId + '&categoryId=' + groupId;
+            else @*if ("@ViewBag.GroupWillAddTo" == "Offer")
+                //location.href = '@Url.Action("AddCategoryToOffer", "Profile")?offerId=' + @ViewBag.PostOfferId + '&categoryId=' + groupId;*@
+       });
+
+    </script>
+}

@@ -1,0 +1,75 @@
+﻿.slick-track {
+	display: flex;
+	overflow: hidden;
+	align-items: flex-start;
+}
+
+.slider-list {
+	overflow: hidden;
+}
+
+.slider {
+	min-width: 0;
+	position: relative;
+	overflow: hidden;
+	padding: 0px 50px;
+}
+
+.slick-slider {
+	overflow: hidden;
+	padding: 20px;
+}
+
+.slick-arrow {
+	position: absolute;
+	top: 50%;
+	margin: -65px 0px 0px 0px;
+	z-index: 10;
+	font-size: 0;
+	width: 45px;
+	height: 50px;
+	padding: 10px;
+}
+
+	.slick-arrow.slick-prev {
+		left: 0;
+		background: url("arrow-left.png") 0 0 / 100% no-repeat;
+		border: hidden;
+	}
+
+	.slick-arrow.slick-next {
+		right: 0;
+		background: url("arrow-right.jpg") 0 0 / 100% no-repeat;
+		border: hidden;
+	}
+
+.slick-dots {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+	.slick-dots li {
+		list-style: none;
+		margin: 0px 10px;
+	}
+
+	.slick-dots button {
+		font-size: 0;
+		width: 10px;
+		height: 10px;
+		background-color: transparent;
+		border-radius: 50%;
+		box-shadow: 1px 1px 5px gray, -1px -1px 5px gray;
+	}
+
+	.slick-dots li.slick-active button {
+		background-color: transparent;
+		border: 1px solid black;
+		box-shadow: 1px 1px 5px black, -1px -1px 5px black;
+	}
+
+.slider_item {
+	padding: 0px 30px;
+	margin: 0px 30px;
+}

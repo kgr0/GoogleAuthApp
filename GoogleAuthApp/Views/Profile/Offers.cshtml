@@ -1,0 +1,93 @@
+﻿@model GoogleAuthApp.Models.ShowOffersModel
+
+@{
+    ViewBag.Title = "Offers";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link href="@Url.Content("~/Styles/Profile.css")" rel="stylesheet" type="text/css" />
+    <link type="text/css" rel="stylesheet" href="~/Styles/sliderStyle.css" />
+</head>
+
+<h2>Offers</h2>
+
+<div>
+    <a href="@Url.Action("CreateOffer", "Profile")" style="font-size:15px;margin:5px; flex:0 0 auto; padding:5px;">
+        <div style="height: 30px; width: 130px; background-color:ghostwhite; border:1px solid pink;">
+            Create Offer
+        </div>
+    </a>
+</div>
+
+@foreach (var offer in Model.Offers.OrderByDescending(p => p.Date))
+{
+    <hr>
+    <div>
+        <span>@offer.PostOrOffer</span>
+    </div>
+    <div style="position:relative;" class="searchedItem, top-container">
+
+        <div style="display:flex;flex-direction:row;">
+            <div>
+                <span>Details  </span>
+                <br />
+                <textarea readonly style="overflow:auto;resize:none">@offer.Text</textarea>
+            </div>
+            <br />
+            <br />
+            <div>
+                <span>Date  </span>
+                <br />
+                @offer.Date
+            </div>
+            <br />
+            <br />
+            <div>
+                <span>Categories:  </span>
+                <br />
+                <br />
+                @foreach (var category in offer.Categories)
+                {
+                    <p>
+                        @category.Group
+                    </p>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="searchedItem, top-container">
+        <div class="slider">
+            @foreach (var picture in offer.OfferPictures)
+            {
+                <div class="slider__item">
+                    @Html.Raw("<img src=\"data:image/jpeg;base64,"
+                                           + Convert.ToBase64String(picture.Picture) + "\" />")
+                </div>
+            }
+        </div>
+    </div>
+
+    <div  class="searchedItem, top-container">
+        <div>
+            <a href="@Url.Action("AddLikeToOffer", "Profile", new { offerId =offer.Id , backTo = "Offers"} )" style="height: 50px; width: 50px;position:relative;">
+                <span>Like:</span>
+            </a>
+            @offer.Likes
+        </div>
+        <div>
+            <a href="@Url.Action("ShowProfile", "Profile", new { userId = offer.UserId} )" style="height: 50px; width: 150px;position:relative;">
+                <span>Open creator profile</span>
+            </a>
+        </div>
+    </div>
+
+}
+
+
+@section scripts {
+    @*add slider Slick*@
+    <script src="~/Scripts/slick.min.js"></script>
+    @*settings for slider*@
+    <script src="~/Scripts/sliderSettings.js"></script>
+}
