@@ -68,7 +68,7 @@
         </div>
     </div>
 
-    <div  class="searchedItem, top-container">
+    <div class="searchedItem, top-container">
         <div>
             <a href="@Url.Action("AddLikeToOffer", "Profile", new { offerId =offer.Id , backTo = "Offers"} )" style="height: 50px; width: 50px;position:relative;">
                 <span>Like:</span>
@@ -77,7 +77,7 @@
         </div>
         <div>
             <a href="@Url.Action("ShowProfile", "Profile", new { userId = offer.UserId} )" style="height: 50px; width: 150px;position:relative;">
-                <span>Open creator profile</span>
+                <span>Open "@offer.UserId" 's profile</span>
             </a>
         </div>
     </div>
