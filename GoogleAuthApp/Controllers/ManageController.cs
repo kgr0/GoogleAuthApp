@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GoogleAuthApp.Models;
+using System.Collections.Generic;
 
 namespace GoogleAuthApp.Controllers
 {
@@ -70,7 +71,8 @@ namespace GoogleAuthApp.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                GroupList = GetGroupList()
             };
             return View(model);
         }
@@ -321,6 +323,40 @@ namespace GoogleAuthApp.Controllers
             var result = await UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
+        public ActionResult ChangeGroupOfInterest(string groupWillAddTo, int postOfferId = 1)
+        {
+            ViewBag.GroupWillAddTo = groupWillAddTo;
+            ViewBag.PostOfferId = postOfferId;
+            var dbGroups = new ApplicationDbContext();
+            return View(dbGroups.GroupsOfInterests);
+        }
+        public ActionResult AddGroupOfInterest(int groupId)
+        {
+            var dbGroups = new ApplicationDbContext();
+            var userId = User.Identity.GetUserId();
+           if(dbGroups.ChosenGroups.Where(g => g.UserId.Equals(userId) && g.GroupId.Equals(groupId)).Count() == 0)
+            {
+                dbGroups.ChosenGroups.Add(new ChosenGroup { UserId = userId, GroupId = groupId });
+                dbGroups.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+        public ActionResult DeleteGroupOfInterest(string groupId)
+        {
+            
+            var dbGroups = new ApplicationDbContext();
+            var groupIdint = int.Parse(groupId);
+            if (dbGroups.ChosenGroups.Where(g => g.Id.Equals(groupIdint)).Count() != 0)
+            {
+                var del = dbGroups.ChosenGroups.Where(g => g.Id.Equals(groupIdint)).First();
+                dbGroups.ChosenGroups.Remove(del);
+                dbGroups.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
 
         protected override void Dispose(bool disposing)
         {
@@ -384,6 +420,22 @@ namespace GoogleAuthApp.Controllers
             Error
         }
 
-#endregion
+        private List<GroupsOfInterest> GetGroupList()
+        {
+            var db = new ApplicationDbContext();
+            var userId = User.Identity.GetUserId();
+            var groups = db.ChosenGroups.Where(u => u.UserId.Equals(userId)).ToArray();
+            var groupsBase = db.GroupsOfInterests;
+            List<GroupsOfInterest> backList = new List<GroupsOfInterest>();
+            foreach (var g in groups)
+            {
+                var a = groupsBase.Where(gr => gr.Id.Equals(g.GroupId)).First();
+                a.Id = g.Id; // to get ID from ChosenGroup in View
+                backList.Add(a);
+            }
+            return backList;
+        }
+
+        #endregion
     }
 }

@@ -1,0 +1,129 @@
+﻿@model GoogleAuthApp.Models.ShowPostsModel
+
+@{
+    ViewBag.Title = "ShowProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link href="@Url.Content("~/Styles/Profile.css")" rel="stylesheet" type="text/css" />
+</head>
+
+<h2>My Profile</h2>
+
+<div>
+    <div class="top-container">
+        <div class="profile-photo-container">
+            @Html.Raw("<img src=\"data:image/jpeg;base64,"
+                                  + Convert.ToBase64String(ViewBag.Photo) + "\" />")
+            @*<p> @Html.ActionLink("Add a photo", "Create")</p>*@
+        </div>
+        <div class="profile-info-container">
+            <div class="name">
+                <p>@ViewBag.FirstName @ViewBag.SecondName</p>
+            </div>
+            <p class="username">@ViewBag.UserName</p>
+            <p class="birthday">@ViewBag.BirthDay</p>
+        </div>
+        <div class="profile-buttons" style="display:flex;flex-direction:row;">
+
+            <a href="@Url.Action("CheckChatGroupAndOpenChatWith", "Chat", new { userId = @ViewBag.UserId} )" style="font-size:15px;margin:5px; flex:0 0 auto; padding:5px;">
+                <div style="height: 30px; width: 130px; background-color:ghostwhite; border:1px solid pink;">
+                    Send Message
+                </div>
+            </a>
+
+            <a href="@Url.Action("/", "/", new { userId = ViewBag.UserId} )" style="font-size:15px; margin:5px; padding:5px;">
+                <div style="height: 30px; width: 130px; background-color:ghostwhite; border:1px solid pink;">
+                    Add Friend
+                </div>
+            </a>
+
+        </div>
+
+    </div>
+    @foreach (var postORoffer in Model.PostsAndOffers.OrderByDescending(p => p.Date))
+    {
+        <hr>
+        <div>
+            <span>@postORoffer.PostOrOffer</span>
+        </div>
+        <div style="position:relative;" class="searchedItem, top-container">
+
+            <div style="display:flex;flex-direction:row;">
+                <div>
+                    <span>Details  </span>
+                    <br />
+                    <textarea readonly style="overflow:auto;resize:none">@postORoffer.Text</textarea>
+                </div>
+                <br />
+                <br />
+                <div>
+                    <span>Date  </span>
+                    <br />
+                    @postORoffer.Date
+                </div>
+                <br />
+                <br />
+                <div>
+                    <span>Categories:  </span>
+                    <br />
+                    <br />
+                    @foreach (var category in postORoffer.Categories)
+                    {
+                        <p>
+                            @category.Group
+                        </p>
+                    }
+                </div>
+            </div>
+        </div>
+            if (@postORoffer.PostOrOffer.Equals("Post"))
+            {
+                <div class="searchedItem, top-container">
+                    <div class="slider">
+                        @foreach (var picture in postORoffer.PostPictures)
+                        {
+                            <div class="slider__item">
+                                @Html.Raw("<img src=\"data:image/jpeg;base64,"
+                                                       + Convert.ToBase64String(picture.Picture) + "\" />")
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="searchedItem, top-container">
+                    <div>
+                        <a href="@Url.Action("AddLikeToPost", "Profile", new { postId =postORoffer.Id, backTo = "ShowProfile", profileUserId = @ViewBag.UserId } )" style="height: 50px; width: 50px;position:relative;">
+                            <span>Like:</span>
+                        </a>
+                        @postORoffer.Likes
+                    </div>
+                </div>
+            }
+            else
+            { @*Offer*@
+                <div class="searchedItem, top-container">
+                    <div class="slider">
+                        @foreach (var picture in postORoffer.OfferPictures)
+                        {
+                            <div class="slider__item">
+                                @Html.Raw("<img src=\"data:image/jpeg;base64,"
+                                                       + Convert.ToBase64String(picture.Picture) + "\" />")
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="searchedItem, top-container">
+                    <div>
+                        <a href="@Url.Action("AddLikeToOffer", "Profile", new { offerId =postORoffer.Id, backTo = "ShowProfile", profileUserId = @ViewBag.UserId} )" style="height: 50px; width: 50px;position:relative;">
+                            <span>Like:</span>
+                        </a>
+                        @postORoffer.Likes
+                    </div>
+                </div>
+             }
+
+        
+        }
+        </div>
+

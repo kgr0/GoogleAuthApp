@@ -1,0 +1,119 @@
+﻿@model GoogleAuthApp.Models.CreatePostModel
+
+@{
+    ViewBag.Title = "CreateOffer";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create Offer</h2>
+
+@using (Html.BeginForm())
+{
+    <input type="submit" value="Create" />
+    <br />
+    <br />
+    @Html.HiddenFor(model => model.Id)
+    @Html.LabelFor(model => model.Text, "Details")
+    <br />
+    @Html.TextAreaFor(model => model.Text)
+    <br />
+    <br />
+    @Html.LabelFor(model => model.Date, "Date")
+    <br />
+    @Model.Date
+    <br />
+    <br />
+}
+<div id="btn_addCategory" style="position:relative;" class="searchedItem">
+    <input type="button" value="Add category" />
+</div>
+
+<div id="addCategoryDiv" style="display: none">
+    <div>
+        <select id="ddl">
+            @foreach (var group in Model.GroupsOfInterests.Where(g => g.ParentId.Equals(0)))
+            {
+                <option value="@group.Id">@group.Group </option>
+            }
+        </select>
+
+        @foreach (var group in Model.GroupsOfInterests.Where(g => g.ParentId.Equals(0)).ToArray())
+        {
+            <select id="ddl_@group.Id" class="DDL hideDDL">
+                <option value=""></option>
+                @foreach (var subGroup in Model.GroupsOfInterests.Where(u => u.ParentId.Equals(@group.Id)))
+                {
+                    <option value="@subGroup.Id">@subGroup.Group</option>
+                }
+            </select>
+        }
+    </div>
+    <div>
+        <input id="btn_addGroup" type="submit" value="Add" />
+    </div>
+</div>
+
+<div id="btn_addPicture" style="position:relative;" class="searchedItem">
+    <input type="button" value="Add picture" />
+</div>
+
+<div id="addPictureDiv" style="display: none">
+    @using (Html.BeginForm("AddPictureToOffer", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.Text)
+        @Html.ValidationSummary(true)
+        <fieldset>
+            @*<legend>Add Picture</legend>*@
+            <hr>
+
+            <div class="editor-label">Picture file</div>
+            <div class="editor-field">
+                <input type="file" name="uploadImage" />
+            </div>
+
+            <p>
+                <input type="submit" value="Upload" />
+            </p>
+        </fieldset>
+    }
+</div>
+
+<head>
+    <link type="text/css" rel="stylesheet" href="~/Content/hide.css" />
+</head>
+@section scripts {
+    <script src="/Scripts/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript">
+        document.getElementById("btn_addPicture").addEventListener("click", function () {
+            var x = document.getElementById("addPictureDiv");
+            x.style.display = "block";
+            var button = document.getElementById("btn_addPicture");
+            button.style.display = "none";
+        });
+        document.getElementById("btn_addCategory").addEventListener("click", function () {
+            var div = document.getElementById("addCategoryDiv");
+            div.style.display = "block";
+            var button = document.getElementById("btn_addCategory");
+            button.style.display = "none";
+        });
+
+        $('#ddl').change(function () {
+            $('.DDL').addClass('hideDDL');
+            var chosen = $(this).find('option:selected').attr('value');
+            $('#ddl_' + chosen).removeClass('hideDDL');
+        });
+        document.getElementById("btn_addGroup").addEventListener("click", function () {
+            var groupId = "";
+            var drop1 = $('#ddl').find('option:selected').attr('value');
+            var drop2 = $('#ddl_' + drop1).find('option:selected').attr('value');
+
+            if (drop2 == "")
+                groupId = drop1;
+            else
+                groupId = drop2;
+
+            location.href = '@Url.Action("AddCategoryToOffer", "Profile")?offerId=' + @Model.Id + '&categoryId=' + groupId;
+        });
+    </script>
+}
