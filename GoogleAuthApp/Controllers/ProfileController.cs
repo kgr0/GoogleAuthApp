@@ -167,6 +167,7 @@ namespace GoogleAuthApp.Controllers
             return RedirectToAction("ShowProfile", new { userId = followId });
         }
 
+
         public ActionResult Index2()
         {
             PictureContext db = new PictureContext();
