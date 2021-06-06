@@ -1,5 +1,4 @@
-﻿@*@model IEnumerable<GoogleAuthApp.Models.OwnProfileViewModel>*@
-@model GoogleAuthApp.Models.ShowPostsModel
+﻿@model GoogleAuthApp.Models.ShowPostsModel
 
 @{
     ViewBag.Title = "ShowOwnProfile";
@@ -13,76 +12,78 @@
 
 <h2>My Profile</h2>
 
-<div>
-    <div class="top-container">
+<div class="main-container">
+    <div class="left-sub-container">
         <div class="profile-photo-container">
             @Html.Raw("<img src=\"data:image/jpeg;base64,"
                                   + Convert.ToBase64String(ViewBag.Photo) + "\" />")
             <p> @Html.ActionLink("Add a photo", "Create")</p>
         </div>
         <div class="profile-info-container">
-            <div class="name">
-                <p>@ViewBag.FirstName @ViewBag.SecondName</p>
-            </div>
-            <p class="username">@ViewBag.UserName</p>
+            <p class="birthday">Location</p>
             <p class="birthday">@ViewBag.BirthDay</p>
         </div>
-        <div class="profile-buttons" style="display:flex;flex-direction:row;">
 
-            <a href="@Url.Action("CreatePost", "Profile")" style="font-size:15px;margin:5px; flex:0 0 auto; padding:5px;">
-                <div style="height: 30px; width: 130px; background-color:ghostwhite; border:1px solid pink;">
-                    Create Post
-                </div>
-            </a>
-            <a href="@Url.Action("CreateOffer", "Profile")" style="font-size:15px;margin:5px; flex:0 0 auto; padding:5px;">
-                <div style="height: 30px; width: 130px; background-color:ghostwhite; border:1px solid pink;">
-                    Create Offer
-                </div>
-            </a>
+        <div class="categories-container">
 
         </div>
-
     </div>
-
-    @foreach (var postORoffer in Model.PostsAndOffers.OrderByDescending(p => p.Date))
-    {
-        <hr>
+    <div class="right-sub-container">
+        <div class="name">
+            <p>@ViewBag.FirstName @ViewBag.SecondName</p>
+        </div>
+        <p class="username">@ViewBag.UserName</p>
         <div>
-            <span>@postORoffer.PostOrOffer</span>
-        </div>
-        <div style="position:relative;" class="searchedItem, top-container">
-
-            <div style="display:flex;flex-direction:row;">
-                <div>
-                    <span>Details  </span>
-                    <br />
-                    <textarea readonly style="overflow:auto;resize:none">@postORoffer.Text</textarea>
-                </div>
-                <br />
-                <br />
-                <div>
-                    <span>Date  </span>
-                    <br />
-                    @postORoffer.Date
-                </div>
-                <br />
-                <br />
-                <div>
-                    <span>Categories:  </span>
-                    <br />
-                    <br />
-                    @foreach (var category in postORoffer.Categories)
-                    {
-                        <p>
-                            @category.Group
-                        </p>
-                    }
-                </div>
-
+            <div class="button">
+                <a href="@Url.Action("CreatePost", "Profile")">
+                    Create Post
+                </a>
             </div>
+            <a class="button" href="@Url.Action("CreateOffer", "Profile")" >
+                    Create Offer
+            </a>
         </div>
-        if (@postORoffer.PostOrOffer.Equals("Post"))
-        {@*Post*@
+
+
+        @foreach (var postORoffer in Model.PostsAndOffers.OrderByDescending(p => p.Date))
+        {
+            <hr>
+            <div>
+                <span>@postORoffer.PostOrOffer</span>
+            </div>
+            <div style="position:relative;" class="searchedItem, top-container">
+
+                <div style="display:flex;flex-direction:row;">
+                    <div>
+                        <span>Details  </span>
+                        <br />
+                        <textarea readonly style="overflow:auto;resize:none">@postORoffer.Text</textarea>
+                    </div>
+                    <br />
+                    <br />
+                    <div>
+                        <span>Date  </span>
+                        <br />
+                        @postORoffer.Date
+                    </div>
+                    <br />
+                    <br />
+                    <div>
+                        <span>Categories:  </span>
+                        <br />
+                        <br />
+                        @foreach (var category in postORoffer.Categories)
+                        {
+                            <p>
+                                @category.Group
+                            </p>
+                        }
+                    </div>
+
+                </div>
+            </div>
+            if (@postORoffer.PostOrOffer.Equals("Post"))
+            {@*Post*@
             <div class="searchedItem, top-container">
                 <div class="slider">
                     @foreach (var picture in postORoffer.PostPictures)
@@ -117,41 +118,43 @@
         }
         else
         { @*Offer*@
-            <div class="searchedItem, top-container">
-                <div class="slider">
-                    @foreach (var picture in postORoffer.OfferPictures)
-                    {
-                        <div class="slider__item">
-                            @Html.Raw("<img src=\"data:image/jpeg;base64,"
-                                                   + Convert.ToBase64String(picture.Picture) + "\" />")
-                        </div>
-                    }
-                </div>
+        <div class="searchedItem, top-container">
+            <div class="slider">
+                @foreach (var picture in postORoffer.OfferPictures)
+                {
+                    <div class="slider__item">
+                        @Html.Raw("<img src=\"data:image/jpeg;base64,"
+                                               + Convert.ToBase64String(picture.Picture) + "\" />")
+                    </div>
+                }
             </div>
-            <div class="searchedItem, top-container">
-                <div>
-                    <a href="@Url.Action("AddLikeToOffer", "Profile", new { offerId =postORoffer.Id, backTo = "ShowOwnProfile"} )" style="height: 50px; width: 50px;position:relative;">
-                        <span>Like:</span>
-                    </a>
-                    @postORoffer.Likes
-                </div>
-                <div>
-                    <br />
-                    <a href="@Url.Action("EditOffer", "Profile", new { Id =postORoffer.Id} )" style="height: 50px; width: 50px;position:relative;">
-                        <input type="submit" value="Edit" />
-                    </a>
-                </div>
-                <div style="position:relative;" class="searchedItem">
-                    <br />
-                    <a href="@Url.Action("DeleteOffer", "Profile", new { offerId = postORoffer.Id} )" style="height: 100px; width: 100px;position:relative;">
-                        <input type="submit" value="Delete Offer" />
-                    </a>
-                </div>
+        </div>
+        <div class="searchedItem, top-container">
+            <div>
+                <a href="@Url.Action("AddLikeToOffer", "Profile", new { offerId =postORoffer.Id, backTo = "ShowOwnProfile"} )" style="height: 50px; width: 50px;position:relative;">
+                    <span>Like:</span>
+                </a>
+                @postORoffer.Likes
             </div>
-        }
+            <div>
+                <br />
+                <a href="@Url.Action("EditOffer", "Profile", new { Id =postORoffer.Id} )" style="height: 50px; width: 50px;position:relative;">
+                    <input type="submit" value="Edit" />
+                </a>
+            </div>
+            <div style="position:relative;" class="searchedItem">
+                <br />
+                <a href="@Url.Action("DeleteOffer", "Profile", new { offerId = postORoffer.Id} )" style="height: 100px; width: 100px;position:relative;">
+                    <input type="submit" value="Delete Offer" />
+                </a>
+            </div>
+        </div>
+    }
 
 
-     }
+}
+    </div>
+   
 </div>
 
 @section scripts {

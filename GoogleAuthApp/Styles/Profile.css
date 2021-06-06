@@ -1,11 +1,21 @@
-﻿.top-container {
+﻿a{
+    color: red;
+}
+
+.main-container{
     display: flex;
-    flex-direction: row;
-    background-color: lavender;
+    flex-direction: column;
+}
+
+.button{
+    margin: 10px;
+    padding: 3px;
+    background-color: gold;
 }
 
 .profile-photo-container {
     flex: 0 0 200px;
+    width: 20px;
 }
 
 img {
@@ -35,5 +45,5 @@ img {
         color: gray;
     }
 .birthday::before{
-    content: "Date of birth: "
+    content: "Date of birth: ";
 }
