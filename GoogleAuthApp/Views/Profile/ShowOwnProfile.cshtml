@@ -6,11 +6,11 @@
 }
 
 <head>
-    <link href="@Url.Content("~/Styles/Profile.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Styles/OwnProfile.css")" rel="stylesheet" type="text/css" />
     <link type="text/css" rel="stylesheet" href="~/Styles/sliderStyle.css" />
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap" rel="stylesheet">
 </head>
-@*https://fonts.googleapis.com/css2?family=Lato:ital@1&display=swap*@
+
 @section scripts {
     @*add slider Slick*@
     <script src="~/Scripts/slick.min.js"></script>
@@ -68,17 +68,15 @@
             <div class="middle-sub-container">
                 <div class="postoffer-top-container">
                     <div class="details-container">
-                        <span>Details:</span>
-                        <br />
+                        <p>Details:</p>
                         <textarea readonly>@postORoffer.Text</textarea>
                     </div>
                     <div class="date-container">
-                        <span>Date:</span>
-                        <br />
+                        <p>Date:</p>
                         @postORoffer.Date
                     </div>
                     <div class="postoffer-categories-container">
-                        <span>Categories:</span>
+                        <p>Categories:</p>
                         @foreach (var category in postORoffer.Categories)
                         {
                             <p>@category.Group</p>
@@ -86,75 +84,68 @@
                     </div>
                 </div>
                 @if (@postORoffer.PostOrOffer.Equals("Post"))
-                {@*Post*@
-                <div class="slider">
-                    @foreach (var picture in postORoffer.PostPictures)
-                    {
-                        <div class="slider__item">
-                            @Html.Raw("<img src=\"data:image/jpeg;base64,"
-                                                    + Convert.ToBase64String(picture.Picture) + "\" />")
+                {   @*Post*@
+                    <div class="slider">
+                        @foreach (var picture in postORoffer.PostPictures)
+                        {
+                            <div class="slider__item">
+                                @Html.Raw("<img src=\"data:image/jpeg;base64,"
+                                                        + Convert.ToBase64String(picture.Picture) + "\" />")
+                            </div>
+                        }
+                    </div>
+                    <div class="postoffer-low-container">
+                        <div>
+                            <a href="@Url.Action("AddLikeToPost", "Profile", new { postId = postORoffer.Id, backTo = "ShowOwnProfile"} )">
+                                <span>Like:</span>
+                            </a>
+                            @postORoffer.Likes
                         </div>
-                    }
-                </div>
-                <div class="postoffer-low-container">
-                    <div>
-                        <a href="@Url.Action("AddLikeToPost", "Profile", new { postId = postORoffer.Id, backTo = "ShowOwnProfile"} )">
-                            <span>Like:</span>
-                        </a>
-                        @postORoffer.Likes
-                    </div>
-                    <div>
-                        <a class="button" href="@Url.Action("EditPost", "Profile", new { Id = postORoffer.Id} )">
-                            <input type="submit" value="Edit" />
-                        </a>
-                    </div>
-                    <div>
-                        <a class="button" href="@Url.Action("DeletePost", "Profile", new { postId = postORoffer.Id} )">
-                            <input type="submit" value="Delete Post" />
-                        </a>
-                    </div>
-                </div>
-                }
-                else
-                { @*Offer*@
-                <div class="slider">
-                    @foreach (var picture in postORoffer.OfferPictures)
-                    {
-                        <div class="slider__item">
-                            @Html.Raw("<img src=\"data:image/jpeg;base64,"
-                                                   + Convert.ToBase64String(picture.Picture) + "\" />")
+                        <div>
+                            <a class="button" href="@Url.Action("EditPost", "Profile", new { Id = postORoffer.Id} )">
+                                <input type="submit" value="Edit" />
+                            </a>
                         </div>
-                    }
-                </div>
-                <div class="postoffer-low-container">
-                    <div>
-                        <a href="@Url.Action("AddLikeToOffer", "Profile", new { offerId =postORoffer.Id, backTo = "ShowOwnProfile"} )">
-                            <span>Like:</span>
-                        </a>
-                        @postORoffer.Likes
+                        <div>
+                            <a class="button" href="@Url.Action("DeletePost", "Profile", new { postId = postORoffer.Id} )">
+                                <input type="submit" value="Delete Post" />
+                            </a>
+                        </div>
                     </div>
-                    <div>
-                        <a class="button" href="@Url.Action("EditOffer", "Profile", new { Id =postORoffer.Id} )">
-                            <input type="submit" value="Edit" />
-                        </a>
-                    </div>
-                    <div>
-                        <a class="button" href="@Url.Action("DeleteOffer", "Profile", new { offerId = postORoffer.Id} )">
-                            <input type="submit" value="Delete Offer" />
-                        </a>
-                    </div>
-                </div>
-                }
+                 }
+                 else
+                 { @*Offer*@
+                 <div class="slider">
+                     @foreach (var picture in postORoffer.OfferPictures)
+                     {
+                         <div class="slider__item">
+                             @Html.Raw("<img src=\"data:image/jpeg;base64,"
+                                                     + Convert.ToBase64String(picture.Picture) + "\" />")
+                         </div>
+                     }
+                 </div>
+                 <div class="postoffer-low-container">
+                     <div>
+                         <a href="@Url.Action("AddLikeToOffer", "Profile", new { offerId =postORoffer.Id, backTo = "ShowOwnProfile"} )">
+                             <span>Like:</span>
+                         </a>
+                         @postORoffer.Likes
+                     </div>
+                     <div>
+                         <a class="button" href="@Url.Action("EditOffer", "Profile", new { Id =postORoffer.Id} )">
+                             <input type="submit" value="Edit" />
+                         </a>
+                     </div>
+                     <div>
+                         <a class="button" href="@Url.Action("DeleteOffer", "Profile", new { offerId = postORoffer.Id} )">
+                             <input type="submit" value="Delete Offer" />
+                         </a>
+                     </div>
+                 </div>
+                 }
             </div>
 
-    }
+         }
+    </div>
 </div>
-</div>
-
-
-
-
-
-
-
 
