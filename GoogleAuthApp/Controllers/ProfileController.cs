@@ -561,7 +561,8 @@ namespace GoogleAuthApp.Controllers
             {
                 var offerCategories = GetOfferCategories(offer.Id);
                 var offerPictures = GetOfferPictures(offer.Id);
-                backList.Add(new CreatePostModel { Id = offer.Id, Text = offer.Text, Categories = offerCategories, Date = offer.Date, Likes = offer.Likes, UserId = offer.UserId, PostOrOffer = "Offer", OfferPictures = offerPictures });
+                var userName = GetUserName(offer.UserId);
+                backList.Add(new CreatePostModel { Id = offer.Id, Text = offer.Text, Categories = offerCategories, Date = offer.Date, Likes = offer.Likes, UserId = offer.UserId, PostOrOffer = "Offer", OfferPictures = offerPictures, UserName = userName });
             }
 
             return backList;
@@ -574,7 +575,11 @@ namespace GoogleAuthApp.Controllers
             };
             return View(model);
         }
-
+        public string GetUserName(string userId)
+        {
+            var db = new ApplicationDbContext();
+            return db.Users.Where(u => u.Id.Equals(userId)).First().UserName;
+        }
         #region Helpers
         public List<GroupsOfInterest> GetPostCategories(int Id)
         {

@@ -285,6 +285,7 @@
     <Compile Include="Models\UserDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Content Include="Styles\default.png" />
     <Content Include="Styles\Profile.css" />
   </ItemGroup>
   <ItemGroup>

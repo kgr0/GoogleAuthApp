@@ -14,11 +14,11 @@ namespace GoogleAuthApp.Models
         public DateTime Date { get; set; }
         public int Likes { get; set; }
         public string UserId { get; set; }
+        public string UserName { get; set; }
         public string PostOrOffer { get; set; }
         public List<PostPicture> PostPictures { get; set; }
         public List<OfferPicture> OfferPictures { get; set; }
         public List<GroupsOfInterest> GroupsOfInterests { get; set; }
-
     }
     public class ShowPostsModel
     {
