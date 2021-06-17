@@ -1,16 +1,17 @@
 ﻿@using Microsoft.AspNet.Identity
+<link type="text/css" rel="stylesheet" href="~/Styles/header.css" />
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
     @Html.AntiForgeryToken()
 
-<ul class="nav navbar-nav navbar-right">
+<ul class="nav navbar-nav navbar-right" >
     <li>
         @*
         @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
         *@
-        @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "ShowOwnProfile", "Profile", routeValues: null, htmlAttributes: new { title = "Manage" })
+        @Html.ActionLink(User.Identity.GetUserName() , "ShowOwnProfile", "Profile", routeValues: null, htmlAttributes: new { title = "Manage", @class = "header_button header_ocean" })
     </li>
     <li>
         @*

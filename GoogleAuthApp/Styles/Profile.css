@@ -1,8 +1,0 @@
-﻿.profile-buttons {
-    display: flex;
-    flex-direction: row;
-    padding: 12px 0 0 20px;
-}
-    .profile-buttons .follow-clicked {
-        background-color: #7fff00;
-    }

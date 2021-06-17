@@ -4,7 +4,7 @@
     ViewBag.Title = "Create";
 }
 
-@using (Html.BeginForm("Create", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "Manage", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.ValidationSummary(true)
     <fieldset>
@@ -22,7 +22,7 @@
 }
 
 <div>
-    @Html.ActionLink("Back to Profile", "ShowOwnProfile")
+    @Html.ActionLink("Back to Settings", "Index")
 </div>
 
 @section Scripts {

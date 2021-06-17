@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link type="text/css" rel="stylesheet" href="~/Styles/header.css" />
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
@@ -26,20 +27,19 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Chat", "Chat", "Chat")</li>
-                    <li>@Html.ActionLink("Offers", "Offers", "Profile")</li>
-                    <li>
+                    <li>@Html.ActionLink("Help", "About", "Home")</li>
+                    @*<li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                    <li class="search-container">
                         @using (Html.BeginForm("SearchUser", "Home", FormMethod.Post, new { id = "submitForm" }))
                         {
-                            <div class="search-container" style="margin:13px;">
-
+                            <div>
                                 <input type="text" name="SearchString" />
-                                <input type="submit" value="Filter" />
+                                <input class="header_button header_purpule" type="submit" value="Search" />
                             </div>
                         }
                     </li>
+                    <li>@Html.ActionLink("Chat", "Chat", "Chat")</li>
+                    <li>@Html.ActionLink("Offers", "Offers", "Profile")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
             </div>

@@ -1,0 +1,173 @@
+﻿*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+}
+
+ul,
+ol,
+li {
+    list-style: none;
+}
+
+img {
+    vertical-align: top;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: inherit;
+    font-size: inherit;
+}
+/*body {
+    height: 100%;
+    line-height: 1;
+    font-size: 16px;
+    color: #fff;
+    font-family: 'Lato', sans-serif;
+}*/
+.wrapper {
+    min-height: 100%;
+}
+
+._container {
+    max-width: 1000px;
+    margin: 0px auto;
+    padding: 50px 20px;
+}
+
+.parallax {
+    min-height: 85vh;
+}
+
+.parallax__body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.parallax__container {
+    position: relative;
+    z-index: 2;
+}
+
+.parallax__label {
+    color: #615dfa;
+    text-transform: uppercase;
+    font-size: 60px;
+    display: flex;
+    margin: 20% 0 30px 0;
+    align-items: center;
+}
+    .parallax__label::before {
+        content: "";
+        background: url("logo.png") top/ 100% no-repeat;
+        margin: 0 0 10px 40%;
+        width: 70px;
+        height: 70px;
+    }
+.parallax__title__main {
+    color: #27264e;
+    text-transform: uppercase;
+    font-size: 35px;
+    text-align: center;
+}
+.parallax__title {
+    color: #27264e;
+    font-size: 30px;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.parallax__images {
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    top: -10%;
+    left: -10%;
+    z-index: 1;
+}
+
+.images-parallax {
+}
+
+.images-parallax__item {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.images-parallax__back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+
+.images-parallax__puzzle1,
+.images-parallax__puzzle2,
+.images-parallax__puzzle3,
+.images-parallax__puzzle4 {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+}
+
+.images-parallax__back {
+    background: url("back.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+    top: 0;
+    opacity: 40%;
+    z-index: 1;
+}
+
+.images-parallax__puzzle1 {
+    background: url("puzzle1.png") 0 0 / 10% no-repeat;
+    top: 25%;
+    left: 15%;
+    z-index: 2;
+}
+
+.images-parallax__puzzle2 {
+    background: url("puzzle2.png") 0 0 / 10% no-repeat;
+    top: 30%;
+    left: 70%;
+    z-index: 2;
+}
+
+.images-parallax__puzzle3 {
+    background: url("puzzle3.png") 0 0 / 10% no-repeat;
+    top: 60%;
+    left: 70%;
+    z-index: 2;
+}
+
+.images-parallax__puzzle4 {
+    background: url("puzzle4.png") 0 0 / 10% no-repeat;
+    top: 60%;
+    left: 25%;
+    z-index: 2;
+}
+
+.content {
+    position: relative;
+    z-index: 2;
+}

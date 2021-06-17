@@ -8,6 +8,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using GoogleAuthApp.Models;
 using System.Collections.Generic;
+using System.IO;
+using System.Data;
+using System.Web.UI.WebControls;
 
 namespace GoogleAuthApp.Controllers
 {
@@ -368,8 +371,44 @@ namespace GoogleAuthApp.Controllers
 
             base.Dispose(disposing);
         }
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
 
-#region Helpers
+        [HttpPost]
+        public ActionResult Create(PictureViewModel pic, HttpPostedFileBase uploadImage)
+        {
+            if (ModelState.IsValid && uploadImage != null)
+            {
+                byte[] imageData = null;
+                using (var binaryReader = new BinaryReader(uploadImage.InputStream))
+                {
+                    imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
+                }
+                PictureContext db = new PictureContext();
+                string userId = User.Identity.GetUserId();
+                if (db.Pictures.Where(u => u.UserId.Equals(userId)).Count() != 0)
+                {
+                    var picture = db.Pictures.Where(u => u.UserId.Equals(userId)).Single();
+                    picture.Image = imageData;
+                }
+                else
+                {
+                    pic.Image = imageData;
+                    pic.UserId = User.Identity.GetUserId();
+
+                    db.Pictures.Add(pic);
+                }
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            return View(pic);
+        }
+
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 

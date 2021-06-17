@@ -83,11 +83,11 @@
                 }
             }*@
         </dd>
-        <dt >Groups Of Interest:</dt>
+        <dt>Groups Of Interest:</dt>
         <dd></dd>
         @foreach (var group in Model.GroupList)
         {
-            <div style= "display: flex">
+            <div style="display: flex">
                 <dd>
                     @group.Group
                 </dd>
@@ -98,6 +98,8 @@
                 </div>
             </div>
         }
-    <dd>[ @*@Html.ActionLink("Add Group", "ChangeGroupOfInterest", "Manage") *@ @Html.ActionLink("Add Group", "ChangeGroupOfInterest", "Manage", new { groupWillAddTo ="Settings" ,  }, null) ] </dd>
+        <dd>[ @*@Html.ActionLink("Add Group", "ChangeGroupOfInterest", "Manage") *@ @Html.ActionLink("Add Group", "ChangeGroupOfInterest", "Manage", new { groupWillAddTo = "Settings", }, null) ] </dd>
+        <dt>Profile photo:</dt>
+        <dd>[ @Html.ActionLink("Add a photo", "Create","Manage") ]</dd>
     </dl>
 </div>

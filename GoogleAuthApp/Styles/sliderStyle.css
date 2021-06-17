@@ -56,20 +56,22 @@
 
 	.slick-dots button {
 		font-size: 0;
-		width: 10px;
-		height: 10px;
+		width: 4px;
+		height: 12px;
 		background-color: transparent;
-		border-radius: 50%;
-		box-shadow: 1px 1px 5px gray, -1px -1px 5px gray;
+		border-radius: 100%;
+		box-shadow: 1px 1px 4px gray, -1px -1px 4px gray;
 	}
 
 	.slick-dots li.slick-active button {
+		
 		background-color: transparent;
 		border: 1px solid black;
 		box-shadow: 1px 1px 5px black, -1px -1px 5px black;
 	}
 
-.slider_item {
-	padding: 0px 30px;
-	margin: 0px 30px;
+.slider__item {
+	padding: 0px 50px;
+	margin: 0px 50px;
+	text-align: center;
 }

@@ -7,108 +7,220 @@
 .profile-container {
     display: flex;
     flex-direction: row;
-    background-color: cornflowerblue;
+    background-color: #f3f2f7;
     border-radius: 5px;
+    padding: 20px;
 }
 .left-sub-container {
-    padding: 0 0 20px 20px;
-    margin: 0;
-    width: 350px;
+    margin: 70px 50px 0 0;
+    width: 40%;
 }
-.categories-container{
-    padding: 12px 0 0 20px;
+.middle-sub-container {
+    width: 20%;
+}
+.right-sub-container {
+    width: 40%;
+    margin: 70px 0 0 70px;
+}
+.right-sub-container-information {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.right-sub-container-buttons {
+    display: flex;
+    flex-direction: row;
+    margin: 85px 0 0 0;
+    flex-wrap: wrap;
+}
+    .right-sub-container-buttons a:first-child {
+        margin: 0 0 0 10px;
+    }
+    .right-sub-container a:nth-child(2) {
+        margin: 0 0 0 60px;
+    }
+.elem-container {
+    margin-left: 15px;
+    color: #c2c0d5;
+}
+    .elem-container p:first-child {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #27264e;
+    }
+.flag-container {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0;
+    width: 40px;
+    height: 25px;
+    background: url("Poland.png") 0 0 / 100% no-repeat;
+    border: hidden;
+    pointer-events: none;
+    border-radius: 20%;
+}
+.flag-name {
+    margin: 7px 0 0 0;
+}
+.categories-container {
+    display: flex;
+    flex-direction: row;   
+    flex-wrap: wrap;
+}
+.category-circule {
+    padding: 10px 15px 10px 15px;
+    margin: 5px;
+    background-color: #615dfa;
+    border-radius: 50%;
+    color: #f3f2f7;
 }
 .button {
-    background-color: gold;
-    color: darkblue;
-    padding: 3px;
+    font-size: 15px;
+    padding: 12px 20px 12px 20px;
     margin: 0 10px 0 0;
-    border: 0.1px solid black;
     border-radius: 5px;
+    color: #f3f2f7;
 }
     .button input {
-        background-color: gold;
+        background-color: #615dfa;
+        border: 0;
+    }
+.purpule {
+    background-color: #615dfa;
+}
+.ocean {
+    background-color: #22d1e2;
+}
+.header_button {
+    font-size: 15px;
+    padding: 5px 10px !important;
+    margin: 0 5px 0 0;
+    border-radius: 5px;
+    color: #f3f2f7;
+    border: none;
+}
+
+    .header_button input {
+        background-color: #615dfa;
         border: 0;
     }
 
-.profile-photo-container {
-    flex: 0 0 200px;
-    width: 110px;
-    padding: 0;
-    margin-top: 15px;
+.header_purpule {
+    background-color: #615dfa;
 }
 
-.profile-add-photo-button {
-    margin-top: 15px;
+.header_ocean {
+    background-color: #22d1e2;
+    margin-top: 10px;
+    color: #27264e !important;
 }
+
+
+.profile-photo-container {
+    width: 200px;
+    height: 200px;
+    padding: 0;
+    margin: 0;
+}
+    .profile-photo-container img {
+        border-radius: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border: 5px solid #615dfa;
+    }
 
 img {
     border-radius: 5px;
 }
-.right-sub-container {
-    padding: 12px 0 0 0;
-}
-.name {
+.name-under-photo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     font-size: 20px;
     font-weight: 700;
+    margin: 15px 0 0 0;
+    color: #27264e;
 }
-
+    .name-under-photo-container p:first-child {
+        margin: 0;
+    }
 .username {
-    font-size: 20px;
-    font-weight: 700;
-    color: gray;
+    color: #c2c0d5;
 }
 .username::before {
     content: "@";
-    font-size: 14px;
-    font-weight: 700;
-    color: gray;
 }
 .birthday::before{
     content: "Date of birth: ";
 }
 
-.middle-sub-container {
-    background-color: cornflowerblue;
+.low-sub-container {
+    background-color: #f3f2f7;
     border-radius: 5px;
 }
 .postoffername{
     font-size: 20px;
 }
 .postoffer-top-container {
-    display: flex;
-    flex-direction: row;
+    display:flex;
 }
-    .postoffer-top-container textarea {
-        overflow: auto;
-        resize: none;
-    }
 .details-container {
-    padding: 12px 0 5px 25px;
+    display: block;
+    margin: 20px auto 20px auto;
+    overflow: auto;
+    resize: none;
+    color: #c2c0d5;
+    border-radius: 5px;
+    min-width: 50%;
+    min-height: 150px;
 }
 .date-container {
     padding: 12px 0 5px 25px;
 }
-.postoffer-categories-container {
-    padding: 12px 0 0 25px;
-}
-    .postoffer-categories-container p{
-        padding:0 0 0 10px;
-        margin: 0;
-    }
 .postoffer-low-container {
     display: flex;
-    flex-direction: row;
-    padding: 20px;
+    flex-direction: column;
+    padding: 0 20px 20px 20px;
 }
-    .postoffer-low-container div:first-child {
+.postoffer-low-container-bottom-section {
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+    .postoffer-low-container-bottom-section .like-conteiner {
         margin: 0 0 0 20px;
         width: 150px;
     }
-    .postoffer-low-container div:last-child {
-        margin-left: auto;
-    }
-    .postoffer-low-container div:nth-child(2) {
+.like-conteiner::before {
+    content: "";
+    display: block;
+    background: url("Like.png") no-repeat;
+    width: 20px;
+    height: 20px;
+    float: left;
+    margin: 0 6px 0 0;
+}
+    .postoffer-low-container-bottom-section div:nth-child(3) {
         width: 100%;
         text-align: right;
     }
+    .postoffer-low-container-bottom-section div:last-child {
+        margin-left: auto;
+    }
+.vertical {
+    border-left: 3px solid #c2c0d5;
+    height: 30px;
+    margin: 5px 0 0 15px;
+}
+.hr-offerProfile {
+    background-color: grey;
+    border-radius: 2px;
+    margin:0;
+}
+.follow-clicked {
+    background-color: green;
+}

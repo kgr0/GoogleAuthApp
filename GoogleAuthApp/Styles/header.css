@@ -1,0 +1,27 @@
+﻿.header_button {
+    font-size: 15px;
+    padding:  5px 10px !important;
+    margin: 0 5px 0 0;
+    border-radius: 5px;
+    color: #f3f2f7;
+}
+
+    .header_button input {
+        background-color: #615dfa;
+        border: 0;
+    }
+
+.header_purpule {
+    background-color: #615dfa;
+}
+
+.header_ocean {
+    background-color: #22d1e2;
+    margin-top: 10px;
+    color: #27264e !important;
+}
+.search-container{
+    margin-top: 10px;
+    margin-left: 10px;
+    padding: 0;
+}

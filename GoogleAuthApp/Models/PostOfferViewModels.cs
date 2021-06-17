@@ -24,11 +24,26 @@ namespace GoogleAuthApp.Models
     {
         public List<CreatePostModel> PostsAndOffers { get; set; }
         public bool Follow { get; set; }
+        public List<GroupsOfInterest> Categories { get; set; }
+        public int FollowersAmount { get; set; }
+        public int PostsAmount { get; set; }
+        public int OffersAmount { get; set; }
     }
     public class ShowOffersModel
     {
         public List<CreatePostModel> Offers { get; set; }
     }
+    public class FilterModel
+    {
+        public OfferModel Offer { get; set; }
+        public float Weight { get; set; }
+    }
+    public class RecomendationModel
+    {
+        public string Category { get; set; }
+        public float Weight { get; set; }
+    }
+
 
     public class PostModel
     {

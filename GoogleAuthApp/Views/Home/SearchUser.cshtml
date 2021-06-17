@@ -13,6 +13,7 @@
     <div style="position:relative;" class="searchedItem">
         <a href="@Url.Action("ShowProfile", "Profile", new { userId = user.UserId} )" style="height: 200px; width: 200px;position:relative;">
            
+                <hr>
                 <span>
                     @Html.Raw("<img src=\"data:image/jpeg;base64,"
                                            + Convert.ToBase64String(user.Photo) + "\" />")

@@ -47,7 +47,11 @@ namespace GoogleAuthApp.Controllers
             }
             var model = new ShowPostsModel
             {
-                PostsAndOffers = ShowPostsAndOffersAtProfileForUser(userId)
+                PostsAndOffers = ShowPostsAndOffersAtProfileForUser(userId),
+                Categories = GetUserCategories(userId),
+                PostsAmount = GetPostsAmount(userId),
+                OffersAmount = GetOffersAmount(userId),
+                FollowersAmount = GetFollowersAmount(userId)
             };
             return View(model);
         }
@@ -138,7 +142,11 @@ namespace GoogleAuthApp.Controllers
             var model = new ShowPostsModel
             {
                 PostsAndOffers = ShowPostsAndOffersAtProfileForUser(userId),
-                Follow = CheckFollow(userId)
+                Follow = CheckFollow(userId),
+                Categories = GetUserCategories(userId),
+                PostsAmount = GetPostsAmount(userId),
+                OffersAmount = GetOffersAmount(userId),
+                FollowersAmount = GetFollowersAmount(userId)
             };
 
             return View(model);
@@ -174,43 +182,6 @@ namespace GoogleAuthApp.Controllers
             string userId = User.Identity.GetUserId();
             return View(db.Pictures.Where(u => u.UserId.Equals(userId)));
         }
-
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Create(PictureViewModel pic, HttpPostedFileBase uploadImage)
-        {
-            if (ModelState.IsValid && uploadImage != null)
-            {
-                byte[] imageData = null;
-                using (var binaryReader = new BinaryReader(uploadImage.InputStream))
-                {
-                    imageData = binaryReader.ReadBytes(uploadImage.ContentLength);
-                }
-                PictureContext db = new PictureContext();
-                string userId = User.Identity.GetUserId();
-                if (db.Pictures.Where(u => u.UserId.Equals(userId)).Count() != 0)
-                {
-                    var picture = db.Pictures.Where(u => u.UserId.Equals(userId)).Single();
-                    picture.Image = imageData;
-                }
-                else
-                {
-                    pic.Image = imageData;
-                    pic.UserId = User.Identity.GetUserId();
-
-                    db.Pictures.Add(pic);
-                }
-                db.SaveChanges();
-
-                return RedirectToAction("ShowOwnProfile");
-            }
-            return View(pic);
-        }
-
         [HttpGet]
         public ActionResult CreatePost()
         {
@@ -513,42 +484,114 @@ namespace GoogleAuthApp.Controllers
         }
 
         /* --------------------------------------------------------------------------------------------------------------------------------*/
-        void  Function1(List<int> hobbies, List<int> keys, List<int> counts,int weight)
+        List<OfferModel> Recomendation()
         {
-            //var hobbies = new List<int>();    // lista zainteresowań użytkownika ;
-            foreach(var hobby in hobbies)
-            {
-                if(!keys.Contains(hobby))
-                {
-                    keys.Add(hobby);
-                    counts.Add(0);
-                }
-                var i= keys.FindIndex(x=> x == hobby);
-                counts[i] += weight;
-                //Sort(keys, counts, i);
-            }
-        }
-        void Recomendation()
-        {
-            var keys = new List<int>();
+            var keys = new List<string>();
             var counts = new List<int>();
+            List<RecomendationModel> set = new List<RecomendationModel>();
+            var userId = User.Identity.GetUserId();
 
-            /*Function1(list, keys, counts, 10);
-            Function1(list, keys, counts, 3);
-            Function1(list, keys, counts, 2);
-            Function1(list, keys, counts, 1);*/
+            var categories= new List<string>();
 
-            var result = Scale(counts);
+            var categoriesUser = GetUserCategories(userId);// User profile categories
+            var weight = 10;
+            set = CountWeight(categoriesUser, set, weight);
+            categories.Clear();
+
+            var categoriesUserOffers = GetUserOffersCategories(userId).
+                                             OrderByDescending(i => i.Id).
+                                             Take(20).ToList(); // User created offers categories
+            weight = 3;
+            set = CountWeight(categoriesUserOffers, set, weight);
+            categories.Clear();
+
+            var categoriesUserPosts = GetUserPostsCategories(userId).
+                                           OrderByDescending(i => i.Id).
+                                           Take(20).ToList();// User created posts categories
+            weight = 3;
+            set = CountWeight(categoriesUserPosts, set, weight);
+            categories.Clear();
+
+            var categoriesLikedOffers = GetCategoriesFromlikedOffers(userId).
+                                                   OrderByDescending(i => i.Id).
+                                                   Take(30).ToList(); // User liked offers categories
+            weight = 1;
+            set = CountWeight(categoriesLikedOffers, set, weight);
+            categories.Clear();
+
+            var categoriesLikedPosts = GetCategoriesFromlikedPosts(userId). 
+                                                  OrderByDescending(i => i.Id).
+                                                  Take(30).ToList(); // User liked posts categories
+            weight = 1;
+            set = CountWeight(categoriesLikedPosts, set, weight);
+   
+            return Filter(ScaleToProcent(set));
         }
-        public List<float> Scale( List<int> counts)
+        List<RecomendationModel> CountWeight(List<GroupsOfInterest> listOfCategories, List<RecomendationModel> set, int weight)
         {
-            var countsFloat = new List <float>();
-            var sum = counts.Sum();
-            foreach (var i in counts)
+            foreach (var category in listOfCategories)
             {
-                countsFloat.Add(((float)i * 100) / (float)sum);
+                var element = set.Where(c => c.Category.Equals(category.Group));
+                if (element.Count() == 0)
+                    set.Add(new RecomendationModel { Category = category.Group, Weight = 0 });
+
+                element.First().Weight += weight;
             }
-            return countsFloat;
+            return set.OrderByDescending(o => o.Weight).ToList();
+        }
+        public List<RecomendationModel> ScaleToProcent(List<RecomendationModel> set)
+        {
+            var sum = set.Select(c => c.Weight).Sum();
+            foreach (var s in set)
+                s.Weight = (((float)s.Weight * 100) / (float)sum);
+
+            return set;
+        }
+        List<OfferModel> Filter(List<RecomendationModel> set)
+        {
+            var dbOffers = new PostOfferContext();
+            var dbCategories = new ApplicationDbContext();
+            var allOffers = dbOffers.OfferModels.ToList();
+            var allCategories = dbCategories.GroupsOfInterests;
+
+            List<FilterModel> filteredOffers = new List<FilterModel>();
+
+            var children = new List<GroupsOfInterest>();  
+            GroupsOfInterest parent;
+            IEnumerable<RecomendationModel> element;
+
+            foreach (var offer in allOffers)
+            {
+                float result = 0;
+                var offerCategories = GetOfferCategories(offer.Id);
+                foreach (var category in offerCategories)
+                {
+                     element = set.Where(c => c.Category.Equals(category.Group));
+                    if (element.Count() != 0)
+                        result += element.First().Weight;
+            
+                    if (category.ParentId != 0)
+                    {
+                        parent = allCategories.Where(i => i.Id.Equals(category.ParentId)).First();
+                        element = set.Where(c => c.Category.Equals(parent.Group));
+                        if (element.Count() != 0)
+                            result += element.First().Weight / (float)2;
+                    }
+                    else
+                    {
+                        children = allCategories.Where(i => i.ParentId.Equals(category.Id)).ToList();
+                        foreach(var child in children)
+                        {
+                            element = set.Where(c => c.Category.Equals(child.Group));
+                            if (element.Count() != 0)
+                                result += ( element.First().Weight * (float)2) / (float)3;
+                        }
+                    }
+                }
+                filteredOffers.Add(new FilterModel { Offer = offer , Weight = result});
+            }
+
+            return filteredOffers.OrderByDescending(k => k.Weight).Select(o => o.Offer).ToList();
         }
         /* --------------------------------------------------------------------------------------------------------------------------------*/
         public List<CreatePostModel> ShowAllOffers()
@@ -567,11 +610,25 @@ namespace GoogleAuthApp.Controllers
 
             return backList;
         }
+        public List<CreatePostModel> ShowRecommendationOffers(List<OfferModel> allUserOffers)
+        {
+            List<CreatePostModel> backList = new List<CreatePostModel>();
+            foreach (var offer in allUserOffers)
+            {
+                var offerCategories = GetOfferCategories(offer.Id);
+                var offerPictures = GetOfferPictures(offer.Id);
+                var userName = GetUserName(offer.UserId);
+                backList.Add(new CreatePostModel { Id = offer.Id, Text = offer.Text, Categories = offerCategories, Date = offer.Date, Likes = offer.Likes, UserId = offer.UserId, PostOrOffer = "Offer", OfferPictures = offerPictures, UserName = userName });
+            }
+
+            return backList;
+        }
+
         public ActionResult Offers()
         {
             var model = new ShowOffersModel
             {
-                Offers = ShowAllOffers()
+               Offers = ShowRecommendationOffers(Recomendation())
             };
             return View(model);
         }
@@ -581,6 +638,40 @@ namespace GoogleAuthApp.Controllers
             return db.Users.Where(u => u.Id.Equals(userId)).First().UserName;
         }
         #region Helpers
+        public int GetFollowersAmount(string userId)
+        {
+            var db = new ApplicationDbContext();
+            var followersAmount = db.Follows.Where(f => f.IdUser2.Equals(userId)).Count();
+            return followersAmount;
+        }
+        public int GetPostsAmount(string userId)
+        {
+            var db = new PostOfferContext();
+            var postsAmount = db.PostModels.Where(p => p.UserId.Equals(userId)).Count();
+            return postsAmount;
+        }
+        public int GetOffersAmount(string userId)
+        {
+            var db = new PostOfferContext();
+            var offersAmount = db.OfferModels.Where(p => p.UserId.Equals(userId)).Count();
+            return offersAmount;
+        }
+        public List<GroupsOfInterest> GetUserCategories(string userId)
+        {
+            var dbCategories = new ApplicationDbContext();
+            var Categories = dbCategories.GroupsOfInterests;
+
+            var userCategories = dbCategories.ChosenGroups.Where(p => p.UserId.Equals(userId)).ToList();
+            List<GroupsOfInterest> backList = new List<GroupsOfInterest>();
+
+            foreach (var category in userCategories)
+            {
+                var a = Categories.Where(g => g.Id == category.GroupId).First();
+                //a.Id = category.Id; // to get ID from PostCategoryModels in View
+                backList.Add(a);
+            }
+            return backList;
+        }
         public List<GroupsOfInterest> GetPostCategories(int Id)
         {
             var db = new PostOfferContext();
@@ -602,6 +693,70 @@ namespace GoogleAuthApp.Controllers
         {
             var db = new PostOfferContext();
             return db.PostPictures.Where(p => p.PostId == Id).ToList();
+        }
+        public List<GroupsOfInterest> GetUserOffersCategories(string userId)
+        {
+            var db = new PostOfferContext();
+            List<GroupsOfInterest> backList = new List<GroupsOfInterest>();
+
+            var userOffers = db.OfferModels.Where(u => u.UserId.Equals(userId));
+            foreach (var offer in userOffers)
+            {
+                var offerCategories = GetOfferCategories(offer.Id);
+                foreach (var category in offerCategories)
+                {
+                    backList.Add(category);
+                }
+            }
+            return backList;
+        }
+        public List<GroupsOfInterest> GetUserPostsCategories(string userId)
+        {
+            var db = new PostOfferContext();
+            List<GroupsOfInterest> backList = new List<GroupsOfInterest>();
+
+            var userPosts = db.PostModels.Where(u => u.UserId.Equals(userId));
+            foreach (var post in userPosts)
+            {
+                var postCategories = GetPostCategories(post.Id);
+                foreach (var category in postCategories)
+                {
+                    backList.Add(category);
+                }
+            }
+            return backList;
+        }
+        public List<GroupsOfInterest> GetCategoriesFromlikedOffers(string userId)
+        {
+            var db = new PostOfferContext();
+            List<GroupsOfInterest> backList = new List<GroupsOfInterest>();
+
+            var likedOffers = db.OfferLikes.Where(u => u.UserId.Equals(userId)).ToList();
+            foreach( var offer in likedOffers)
+            {
+               var offerCategories= GetOfferCategories(offer.OfferId).ToList();
+                foreach(var category in offerCategories)
+                {
+                    backList.Add(category);
+                }
+            }
+            return backList;
+        }
+        public List<GroupsOfInterest> GetCategoriesFromlikedPosts(string userId)
+        {
+            var db = new PostOfferContext();
+            List<GroupsOfInterest> backList = new List<GroupsOfInterest>();
+
+            var likedPosts = db.PostLikes.Where(u => u.UserId.Equals(userId));
+            foreach (var post in likedPosts)
+            {
+                var postCategories = GetPostCategories(post.PostId);
+                foreach (var category in postCategories)
+                {
+                    backList.Add(category);
+                }
+            }
+            return backList;
         }
         public List<OfferPicture> GetOfferPictures(int Id)
         {

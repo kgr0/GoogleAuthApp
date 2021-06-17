@@ -18,43 +18,60 @@
     <script src="~/Scripts/sliderSettings.js"></script>
 }
 
-<h2>My Profile</h2>
-
 <div class="main-container">
     <div class="profile-container">
         <div class="left-sub-container">
+            <div class="categories-container">
+                @*<div class="profile-info-container">
+                    <p class="birthday">@ViewBag.BirthDay</p>
+                </div>*@
+                @foreach (var category in Model.Categories)
+                {
+                    <p class="category-circule">@category.Group</p>
+                }
+            </div>
+        </div>
+        <div class="middle-sub-container">
             <div class="profile-photo-container">
                 @Html.Raw("<img src=\"data:image/jpeg;base64,"
                                       + Convert.ToBase64String(ViewBag.Photo) + "\" />")
-                <p class="profile-add-photo-button"> @Html.ActionLink("Add a photo", "Create", new { }, new { @class = "button" })</p>
             </div>
-            <div class="profile-info-container">
-                <p class="birthday">Location</p>
-                <p class="birthday">@ViewBag.BirthDay</p>
-            </div>
-
-            <div>
-                <a class="button" href="@Url.Action("CreatePost", "Profile")">
-                    Create Post
-                </a>
-                <a class="button" href="@Url.Action("CreateOffer", "Profile")">
-                    Create Offer
-                </a>
+            <div class="name-under-photo-container">
+                <p>@ViewBag.FirstName @ViewBag.SecondName</p>
+                <p class="username">@ViewBag.UserName</p>
             </div>
 
         </div>
         <div class="right-sub-container">
-            <div class="name">
-                <p>@ViewBag.FirstName @ViewBag.SecondName</p>
+            <div class="right-sub-container-information">
+                <div class="elem-container">
+                    <p>@Model.OffersAmount</p>
+                    <p>Offers</p>
+                </div>
+                <div class="vertical"></div>
+                <div class="elem-container">
+                    <p>@Model.PostsAmount</p>
+                    <p>Posts</p>
+                </div>
+                <div class="vertical"></div>
+                <div class="elem-container">
+                    <p>@Model.FollowersAmount</p>
+                    <p>Followers</p>
+                </div>
+                <div class="vertical"></div>
+                <div class="elem-container">
+                    <button class="flag-container"></button>
+                    <p class="flag-name">Poland</p>
+                </div>
             </div>
-            <p class="username">@ViewBag.UserName</p>
-        </div>
-        <div class="categories-container">
-            <p class="name">Categories</p>
-            <p>Category1</p>
-            <p>Category2</p>
-            <p>Category3</p>
-            <p>Category4</p>
+            <div class="right-sub-container-buttons">
+                <a class="button ocean" href="@Url.Action("CreatePost", "Profile")">
+                    Create Post
+                </a>
+                <a class="button purpule" href="@Url.Action("CreateOffer", "Profile")">
+                    Create Offer
+                </a>
+            </div>
         </div>
     </div>
 
@@ -65,87 +82,103 @@
             <div class="postoffername">
                 <p>@postORoffer.PostOrOffer</p>
             </div>
-            <div class="middle-sub-container">
+            <div class="low-sub-container">
                 <div class="postoffer-top-container">
-                    <div class="details-container">
-                        <p>Details:</p>
-                        <textarea readonly>@postORoffer.Text</textarea>
-                    </div>
-                    <div class="date-container">
-                        <p>Date:</p>
-                        @postORoffer.Date
-                    </div>
-                    <div class="postoffer-categories-container">
-                        <p>Categories:</p>
-                        @foreach (var category in postORoffer.Categories)
-                        {
-                            <p>@category.Group</p>
-                        }
-                    </div>
+                    <textarea readonly class="details-container">@postORoffer.Text</textarea>
                 </div>
                 @if (@postORoffer.PostOrOffer.Equals("Post"))
-                {   @*Post*@
-                    <div class="slider">
-                        @foreach (var picture in postORoffer.PostPictures)
-                        {
-                            <div class="slider__item">
-                                @Html.Raw("<img src=\"data:image/jpeg;base64,"
-                                                        + Convert.ToBase64String(picture.Picture) + "\" />")
-                            </div>
-                        }
+                {@*Post*@
+                <div class="slider">
+                    @foreach (var picture in postORoffer.PostPictures)
+                    {
+                        <div class="slider__item">
+                            @Html.Raw("<img src=\"data:image/jpeg;base64,"
+                                                    + Convert.ToBase64String(picture.Picture) + "\" />")
+                        </div>
+                    }
+                </div>
+                <div class="postoffer-low-container">   
+                    <div>
+                        <hr class="hr-offerProfile">
+                        <div class="categories-container">
+                            @foreach (var category in postORoffer.Categories)
+                            {
+                                <p class="category-circule">@category.Group</p>
+                            }
+                        </div>
+                        <hr class="hr-offerProfile">
                     </div>
-                    <div class="postoffer-low-container">
+                    <div class="postoffer-low-container-bottom-section">
                         <div>
+                            @postORoffer.Date
+                        </div>
+                        <div class="like-conteiner">
                             <a href="@Url.Action("AddLikeToPost", "Profile", new { postId = postORoffer.Id, backTo = "ShowOwnProfile"} )">
                                 <span>Like:</span>
                             </a>
                             @postORoffer.Likes
                         </div>
                         <div>
-                            <a class="button" href="@Url.Action("EditPost", "Profile", new { Id = postORoffer.Id} )">
+                            <a class="button purpule" href="@Url.Action("EditPost", "Profile", new { Id = postORoffer.Id} )">
                                 <input type="submit" value="Edit" />
                             </a>
                         </div>
                         <div>
-                            <a class="button" href="@Url.Action("DeletePost", "Profile", new { postId = postORoffer.Id} )">
+                            <a class="button purpule" href="@Url.Action("DeletePost", "Profile", new { postId = postORoffer.Id} )">
                                 <input type="submit" value="Delete Post" />
                             </a>
                         </div>
                     </div>
-                 }
-                 else
-                 { @*Offer*@
-                 <div class="slider">
-                     @foreach (var picture in postORoffer.OfferPictures)
-                     {
-                         <div class="slider__item">
-                             @Html.Raw("<img src=\"data:image/jpeg;base64,"
-                                                     + Convert.ToBase64String(picture.Picture) + "\" />")
-                         </div>
-                     }
-                 </div>
-                 <div class="postoffer-low-container">
-                     <div>
-                         <a href="@Url.Action("AddLikeToOffer", "Profile", new { offerId =postORoffer.Id, backTo = "ShowOwnProfile"} )">
-                             <span>Like:</span>
-                         </a>
-                         @postORoffer.Likes
-                     </div>
-                     <div>
-                         <a class="button" href="@Url.Action("EditOffer", "Profile", new { Id =postORoffer.Id} )">
-                             <input type="submit" value="Edit" />
-                         </a>
-                     </div>
-                     <div>
-                         <a class="button" href="@Url.Action("DeleteOffer", "Profile", new { offerId = postORoffer.Id} )">
-                             <input type="submit" value="Delete Offer" />
-                         </a>
-                     </div>
-                 </div>
-                 }
+                </div>
+            }
+            else
+            { @*Offer*@
+            <div class="slider">
+                @foreach (var picture in postORoffer.OfferPictures)
+                {
+                    <div class="slider__item">
+                        @Html.Raw("<img src=\"data:image/jpeg;base64,"
+                                                + Convert.ToBase64String(picture.Picture) + "\" />")
+                    </div>
+                }
+            </div>
+            <div class="postoffer-low-container">
+                <div>
+                    <hr class="hr-offerProfile">
+                    <div class="categories-container">
+                        @foreach (var category in postORoffer.Categories)
+                        {
+                            <p class="category-circule">@category.Group</p>
+                        }
+                    </div>
+                    <hr class="hr-offerProfile">
+                </div>
+                <div class="postoffer-low-container-bottom-section">
+                    <div>
+                        @postORoffer.Date
+                    </div>
+                    <div class="like-conteiner">
+                        <a href="@Url.Action("AddLikeToOffer", "Profile", new { offerId =postORoffer.Id, backTo = "ShowOwnProfile"} )">
+                            <span>Like:</span>
+                        </a>
+                        @postORoffer.Likes
+                    </div>
+                    <div>
+                        <a class="button purpule" href="@Url.Action("EditOffer", "Profile", new { Id =postORoffer.Id} )">
+                            <input type="submit" value="Edit" />
+                        </a>
+                    </div>
+                    <div>
+                        <a class="button purpule" href="@Url.Action("DeleteOffer", "Profile", new { offerId = postORoffer.Id} )">
+                            <input type="submit" value="Delete Offer" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
             </div>
 
-         }
+        }
     </div>
 </div>
 

@@ -19,6 +19,8 @@
         touchMove: true,
         waitForAnimate: false,
         centerMode: true,
-        fade: false
+        fade: false,
+        centerMode: true
+        
     });
 });
