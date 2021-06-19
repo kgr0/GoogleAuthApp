@@ -20,7 +20,6 @@ namespace GoogleAuthApp
         #endregion
         #region Methods
 
-
         public void Connect(string userName, string id)
         {
             ConnectedChatGroup.Clear();
@@ -105,7 +104,8 @@ namespace GoogleAuthApp
 
             if (toUser != null && fromUser != null)
             {
-                var mod = db.MessageModels.Where(u => (u.From.Equals(fromUserId) && u.To.Equals(toUserId)) || (u.From.Equals(toUserId) && u.To.Equals(fromUserId))).OrderBy(u => u.Time);
+                var mod = db.MessageModels.Where(u => (u.From.Equals(fromUserId) && u.To.Equals(toUserId)) ||
+                                                      (u.From.Equals(toUserId) && u.To.Equals(fromUserId))).OrderBy(u => u.Time);
                 foreach (var b in mod)
                     Clients.Caller.messageReceived(ConnectedUsers.FirstOrDefault(x => x.Id == b.From).UserName, b.Message, toUserId);
             }
@@ -121,7 +121,9 @@ namespace GoogleAuthApp
         public void ReadMessages(string fromUserId, string toUserId)
         {
             //Clients.Caller.onAlert("Read");
-            var messages = db.MessageModels.Where(u => ((u.From.Equals(fromUserId) && u.To.Equals(toUserId)) || (u.From.Equals(toUserId) && u.To.Equals(fromUserId))) && (u.ReadFrom.Equals(false) || u.ReadTo.Equals(false)));
+            var messages = db.MessageModels.Where(u => ((u.From.Equals(fromUserId) && u.To.Equals(toUserId)) || 
+                                                        (u.From.Equals(toUserId) && u.To.Equals(fromUserId))) &&
+                                                        (u.ReadFrom.Equals(false) || u.ReadTo.Equals(false)));
             foreach (var message in messages)
             {
                 if (message.From.Equals(fromUserId))

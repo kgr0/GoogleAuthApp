@@ -551,7 +551,7 @@ namespace GoogleAuthApp.Controllers
         {
             var dbOffers = new PostOfferContext();
             var dbCategories = new ApplicationDbContext();
-            var allOffers = dbOffers.OfferModels.ToList();
+            var allOffers = dbOffers.OfferModels.OrderByDescending(d => d.Date).Take(50).ToList();
             var allCategories = dbCategories.GroupsOfInterests;
 
             List<FilterModel> filteredOffers = new List<FilterModel>();

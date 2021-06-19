@@ -6,6 +6,9 @@
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
+<head>
+    <link type="text/css" rel="stylesheet" href="~/Styles/settings.css" />
+</head>
 <div>
     <h4>Change your account settings</h4>
     <hr />
@@ -87,12 +90,12 @@
         <dd></dd>
         @foreach (var group in Model.GroupList)
         {
-            <div style="display: flex">
+            <div style="display: flex; margin: 10px 0;">
                 <dd>
                     @group.Group
                 </dd>
-                <div style="position:relative;" class="searchedItem">
-                    <a href="@Url.Action("DeleteGroupOfInterest", "Manage", new { groupId = group.Id} )" style="height: 100px; width: 100px;position:relative;">
+                <div style="position:relative;margin-left:10px;" class="searchedItem">
+                    <a class="settings_button" href="@Url.Action("DeleteGroupOfInterest", "Manage", new { groupId = group.Id} )">
                         <input type="submit" value="Delete" />
                     </a>
                 </div>
@@ -100,6 +103,6 @@
         }
         <dd>[ @*@Html.ActionLink("Add Group", "ChangeGroupOfInterest", "Manage") *@ @Html.ActionLink("Add Group", "ChangeGroupOfInterest", "Manage", new { groupWillAddTo = "Settings", }, null) ] </dd>
         <dt>Profile photo:</dt>
-        <dd>[ @Html.ActionLink("Add a photo", "Create","Manage") ]</dd>
+        <dd>[ @Html.ActionLink("Add a photo", "Create", "Manage") ]</dd>
     </dl>
 </div>

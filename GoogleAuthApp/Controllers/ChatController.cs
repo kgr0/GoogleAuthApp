@@ -18,22 +18,13 @@ namespace GoogleAuthApp.Controllers
         {
             db.Dispose();
             base.Dispose(disposing);
-        }
-
-
-        /*[HttpGet]
-        public ActionResult Chat()
-        {
-            ViewBag.userId = "";
-            ViewBag.userName = "";
-            return View();
-        }*/
- 
+        } 
         [HttpGet]
         public ActionResult CheckChatGroupAndOpenChatWith(string userId = "")
         {
             var myUserId = User.Identity.GetUserId();
-            var chatGroup = db.ChatModels.Where(u => (u.IdUser1.Equals(myUserId) && u.IdUser2.Equals(userId)) || (u.IdUser1.Equals(userId) && u.IdUser2.Equals(myUserId))).ToArray();
+            var chatGroup = db.ChatModels.Where(u => (u.IdUser1.Equals(myUserId) && u.IdUser2.Equals(userId)) ||
+                                                     (u.IdUser1.Equals(userId)   && u.IdUser2.Equals(myUserId))).ToArray();
             if(chatGroup.Count() == 0)
             {
                 db.ChatModels.Add(new ChatModel {IdUser1 = myUserId, IdUser2 = userId });
